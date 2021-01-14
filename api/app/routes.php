@@ -1,11 +1,13 @@
 <?php
 declare(strict_types=1);
 
-use App\Application\Actions\User\ListUsersAction;
-use App\Application\Actions\User\ViewUserAction;
+
 use App\Application\Actions\Animal\ListAnimalsAction;
 use App\Application\Actions\Animal\GetAnimalAction;
 use App\Application\Actions\Animal\NewAnimalAction;
+use App\Application\Actions\Animal\UpdateAnimalAction;
+use App\Application\Actions\Animal\DeleteAnimalAction;// fin controllers
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -17,20 +19,18 @@ return function (App $app) {
         return $response;
     });
 
-    $app->get('/', function (Request $request, Response $response) {
-        $response->getBody()->write('Hello world!');
-        $response->getBody()->write('<form method="POST" action="/animals"><input type="text" name="name"><input type="text" name="type"><input type="submit" value="test"></form>');
-        return $response;
-    });
-
-    $app->group('/users', function (Group $group) {
-        $group->get('', ListUsersAction::class);
-        $group->get('/{id}', ViewUserAction::class);
+    $app->get('/', function (Request $request, Response $response){
+         $response->getBody()->write("<form action='/animals/1' method='DELETE'><input type='text' value='Billy' name='name'><input type='text' name='type' value='cat'> <input type='submit' value='test'> </form> ");
+         return $response;
     });
 
     $app->group('/animals', function (Group $group) {
         $group->get('', ListAnimalsAction::class);
         $group->get('/{id}',GetAnimalAction::class);
         $group->post('', NewAnimalAction::class);
+        $group->post('/{id}', UpdateAnimalAction::class);
+
     });
+    
+
 };
