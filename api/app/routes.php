@@ -19,17 +19,13 @@ return function (App $app) {
         return $response;
     });
 
-    $app->get('/', function (Request $request, Response $response){
-         $response->getBody()->write("<form action='/animals/1' method='DELETE'><input type='text' value='Billy' name='name'><input type='text' name='type' value='cat'> <input type='submit' value='test'> </form> ");
-         return $response;
-    });
 
     $app->group('/animals', function (Group $group) {
         $group->get('', ListAnimalsAction::class);
         $group->get('/{id}',GetAnimalAction::class);
         $group->post('', NewAnimalAction::class);
-        $group->post('/{id}', UpdateAnimalAction::class);
-
+        $group->post('/update/{id}', UpdateAnimalAction::class);
+        $group->post('/delete/{id}', DeleteAnimalAction::class);
     });
     
 
